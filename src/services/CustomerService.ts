@@ -1,7 +1,18 @@
-import { Customer } from "../model/Customer";
+import { customerTable, newCustomer } from "../schema/models/Customer";
+import { CustomerRepository } from '../repositories/CustomerRepository';
+
+const customerRepository = new CustomerRepository();
 
 export class CustomerService {
-    async registerCustomer(customerInfo: Customer) {
-        // TODO: Create validation if customer already exist
+    async createCustomer(customer: newCustomer) {
+        return await customerRepository.createCustomer(customer);
+    }
+
+    async updateCodename(originalCodename: string, newCodename: string) {
+        return await customerRepository.updateCodename(originalCodename, newCodename)
+    }
+
+    async updatePassword(codename: string, newPassword: string) {
+        return await customerRepository.updatePassword(codename, newPassword)
     }
 }
