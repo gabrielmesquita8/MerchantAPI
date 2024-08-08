@@ -16,10 +16,29 @@ export class CustomerRepository {
     }
 
     async updateCodename(originalCodename: string, newCodename: string) {
-        return await db.update(customer).set({ codename: newCodename }).where(eq(customer.codename, originalCodename));
+        return await db.update(customer).set({ codename: newCodename })
+        .where(eq(customer.codename, originalCodename));
     }
 
     async updatePassword(codename: string, newPassword: string) {
-        return await db.update(customer).set({ password: newPassword }).where(eq(customer.codename, codename));
+        return await db.update(customer).set({ password: newPassword })
+        .where(eq(customer.codename, codename));
+    }
+
+    async deleteCustomer(codename: string) {
+        return await db.delete(customer).where(eq(customer.codename, codename));
+    }
+
+    async retrieveCoinsFromCustomer(codename: string) {
+        const getCoinFromCustomer = await db.select({
+            field1: customer.coins
+          }).from(customer).where(eq(customer.codename, codename));
+        const { field1 } = getCoinFromCustomer[0];
+        return field1
+    }
+
+    async updateCustomerCoins(codename: string, newCoins: number) {
+        return await db.update(customer).set({ coins: newCoins })
+        .where(eq(customer.codename, codename));
     }
 }

@@ -21,9 +21,21 @@ export class CustomerController {
     // TODO: Refactor this function because is failing
     async updateCustomerPassword(req: Request, res: Response) {
         const codename = req.params.codename
-        const { passoword } = req.body
+        const { password } = req.body
 
-        await customerService.updatePassword(codename, passoword)
+        await customerService.updatePassword(codename, password)
         res.status(200).json("Hehe, your password have been discovered! Don't worry, your passowrd has been successfully changed.")
+    }
+
+    async deleteCustomer(req: Request, res: Response) {
+        const codename = req.params.codename
+        await customerService.deleteCustomer(codename)
+        res.status(200).json("Hehe, don't worry, all your data has been successfully deleted")
+    }
+
+    async makingCoins(req: Request, res: Response) {
+        const codename = req.params.codename
+        const coins = await customerService.makeCoinsMyFriend(codename)
+        res.status(200).json("Woa, look that, a little more and you can be rich! You have " + coins + " coins.")
     }
 }

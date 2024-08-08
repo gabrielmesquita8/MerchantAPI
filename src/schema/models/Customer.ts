@@ -5,7 +5,7 @@ export const customer = pgTable('customer', {
     customer_name: text('customer_name'),
     codename: varchar('codename', { length: 255 }).unique().notNull(),
     password: text('password').notNull(),
-    coins: integer('coins')
+    coins: integer('coins').notNull()
 })
 
 export type customerTable = typeof customer.$inferSelect
