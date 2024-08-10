@@ -1,10 +1,11 @@
 import express from 'express'
-import router from './routes/CustomerRoute'
+import customerRouter from './routes/CustomerRoute'
+import itemRouter from './routes/ItemRoute'
 
 const app = express()
 
 app.use(express.json())
-app.use(router)
+app.use([customerRouter, itemRouter])
 
 app.listen(3000)
 
