@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm';
 import { integer, pgTable, serial, text, varchar } from 'drizzle-orm/pg-core';
 
 export const customer = pgTable('customer', {
@@ -5,7 +6,8 @@ export const customer = pgTable('customer', {
     customer_name: text('customer_name'),
     codename: varchar('codename', { length: 255 }).unique().notNull(),
     password: text('password').notNull(),
-    coins: integer('coins').notNull()
+    coins: integer('coins').notNull(),
+    inventory: text('inventory').array().notNull()
 })
 
 export type customerTable = typeof customer.$inferSelect

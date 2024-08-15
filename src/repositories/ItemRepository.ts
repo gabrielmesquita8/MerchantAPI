@@ -8,6 +8,10 @@ export class ItemRepository {
         return await db.select().from(itemsTable);
     }
 
+    async getSpecificItemByName(itemName: string) {
+        return await db.select().from(itemsTable).where(eq(itemsTable.itemName, itemName));
+    }
+
     async createItem(newItem: newItem) {
         return await db.insert(itemsTable).values(newItem).returning();
     }

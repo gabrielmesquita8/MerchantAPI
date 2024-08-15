@@ -8,6 +8,27 @@
       "when": 1722800807478,
       "tag": "0000_next_tusk",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1723297324173,
+      "tag": "0001_striped_xorn",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1723298121573,
+      "tag": "0002_keen_nightshade",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1723314449228,
+      "tag": "0003_clear_deadpool",
+      "breakpoints": true
     }
   ]
 }
