@@ -1,3 +1,4 @@
+import { BadRequestError } from '../middlewares/errors/ApiErrorMessages';
 import { CustomerRepository } from '../repositories/CustomerRepository';
 import { ItemRepository } from '../repositories/ItemRepository';
 import { TransactionRepository } from '../repositories/TransactionRepository';
@@ -17,9 +18,12 @@ export class TransactionService {
                     await transactionRepository.buyItemAndSendToInventory(codename, item_name)
                     const remainCoins = retriveCoins - item.price
                     await customerRepository.updateCustomerCoins(codename, remainCoins)
+                } else {
+                    throw new BadRequestError('Not enough cash, stranger!')
                 }
             });
-
+        }  else {
+            throw new BadRequestError('...You just gonna stand there or what?')
         }
     }
 }
