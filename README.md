@@ -45,12 +45,15 @@ $ npm start
 
 **How to use the API**
 
-1. **Create the main data:**
-   - First, execute the request `registerItem` on postman. This request will create an item in the database. 
-   - Second, execute the request `registerCustomer` on postman. This request will create an customer in the database. 
-   - Third, make the login to generate the token. You can execute the `customerLogin` request for that.
+1. **Create the Main Data:**
+   - **Register an Item:**
+     - First, execute the `registerItem` request in Postman. This request will create an item in the database.
+   - **Register a Customer:**
+     - Next, execute the `registerCustomer` request in Postman. This request will create a customer in the database.
+   - **Login to Generate a Token:**
+     - Finally, log in to generate a token by executing the `customerLogin` request.
 
-2. **Others requests**
-   - With the main data ready, now can use the others endpoints for test the API. 
-   - The `items` endpoints its not necessary to make login, but the endpoints from `customers` and `transactions` it will be necessary to use a token. 
-   - 
+2. **Other Requests:**
+   - With the main data set up, you can now use the other endpoints to test the API.
+   - The `items` endpoints do not require authentication. However, for `customers` and `transactions` endpoints, you will need to use the generated token.
+   - Remember to update your codename or password in subsequent requests after making changes.
