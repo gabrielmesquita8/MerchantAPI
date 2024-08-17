@@ -22,7 +22,6 @@ export class CustomerController {
         res.status(200).json("Hehe, you have been discovered! Don't worry, your codename has been successfully changed.")
     }
 
-    // TODO: Refactor this function because is failing
     async updateCustomerPassword(req: Request, res: Response) {
         const codename = req.params.codename
         const { password } = req.body

@@ -11,7 +11,6 @@ export class ItemController {
     }
 
     async registerItem(req: Request, res: Response) {
-        // TODO: You can add same items and only will increase his qtd
         const newItem = await itemService.addNewItem(req.body);
         return res.status(201).json(newItem);
     }
