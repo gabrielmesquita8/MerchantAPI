@@ -13,15 +13,15 @@ export class TransactionService {
         const item = await itemRepository.getSpecificItemByName(item_name[0])
         
         if (item.length > 0) {
-            item.forEach(async item => {
-                if (retriveCoins >= item.price) {
+            for (const currentItem of item) {
+                if (retriveCoins >= currentItem.price) {
                     await transactionRepository.buyItemAndSendToInventory(codename, item_name)
-                    const remainCoins = retriveCoins - item.price
+                    const remainCoins = retriveCoins - currentItem.price
                     await customerRepository.updateCustomerCoins(codename, remainCoins)
                 } else {
                     throw new BadRequestError('Not enough cash, stranger!')
                 }
-            });
+            };
         }  else {
             throw new BadRequestError('...You just gonna stand there or what?')
         }

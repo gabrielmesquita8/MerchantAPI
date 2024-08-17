@@ -1,7 +1,7 @@
 import { BadRequestError, NotFoundError } from "../middlewares/errors/ApiErrorMessages";
 import { ItemRepository } from "../repositories/ItemRepository";
 import { newItem } from "../schema/models/Items";
-import { ValidationHelper } from "./utils/ValidationHelper";
+import { ValidationHelper } from "../utils/ValidationHelper";
 
 const itemRepository = new ItemRepository()
 const validationHelper = new ValidationHelper();
@@ -14,7 +14,7 @@ export class ItemService {
 
     async addNewItem(newItem: newItem) {
         const verifyItemAlreadyExist = await itemRepository.getSpecificItemByName(newItem.itemName) 
-        if (verifyItemAlreadyExist === null) {
+        if (verifyItemAlreadyExist.length > 0) {
           throw new NotFoundError('This item already exist!')
         }
 
@@ -27,7 +27,7 @@ export class ItemService {
 
     async updateDescription(itemName: string, newDescription: string) {
         const verifyItemAlreadyExist = await itemRepository.getSpecificItemByName(itemName) 
-        if (verifyItemAlreadyExist === null) {
+        if (verifyItemAlreadyExist.length === 0) {
           throw new NotFoundError('What is your problem? This item does not exist!')
         }
 
@@ -40,7 +40,7 @@ export class ItemService {
 
     async updatePrice(itemName: string, newPrice: number) {
         const verifyItemAlreadyExist = await itemRepository.getSpecificItemByName(itemName) 
-        if (verifyItemAlreadyExist === null) {
+        if (verifyItemAlreadyExist.length === 0) {
           throw new NotFoundError('What is your problem? This item does not exist!')
         }
 
@@ -53,7 +53,7 @@ export class ItemService {
 
     async deleteItem(itemName: string) {
         const verifyItemAlreadyExist = await itemRepository.getSpecificItemByName(itemName) 
-        if (verifyItemAlreadyExist === null) {
+        if (verifyItemAlreadyExist.length === 0) {
           throw new NotFoundError('This item does not exist!')
         }
         return await itemRepository.deleteItem(itemName)

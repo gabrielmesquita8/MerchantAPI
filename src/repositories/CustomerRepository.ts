@@ -7,6 +7,10 @@ export class CustomerRepository {
         return await db.select().from(customer);
     }
 
+    async getSpecificCustomerById(id: number) {
+        return await db.select().from(customer).where(eq(customer.id, id));
+    }
+
     async getSpecificCustomerByCodename(codename: string) {
         return await db.select().from(customer).where(eq(customer.codename, codename));
     }

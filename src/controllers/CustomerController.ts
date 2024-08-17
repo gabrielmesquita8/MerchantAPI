@@ -4,8 +4,12 @@ import { CustomerService } from "../services/CustomerService";
 const customerService = new CustomerService();
 
 export class CustomerController {
+    async customerLogin(req: Request, res: Response) {
+        const token = await customerService.customerLogin(req.body)
+        return res.json({token})
+    }
+
     async registerCustomer(req: Request, res: Response) {
-        // TODO: Create validation if customer already exist
         const newCustomer = await customerService.createCustomer(req.body);
         return res.status(201).json(newCustomer);
     }

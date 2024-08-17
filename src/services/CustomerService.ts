@@ -1,15 +1,39 @@
-import { customerTable, newCustomer } from "../schema/models/Customer";
+import bcryptjs from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import { newCustomer } from "../schema/models/Customer";
 import { CustomerRepository } from '../repositories/CustomerRepository';
 import { BadRequestError, NotFoundError } from "../middlewares/errors/ApiErrorMessages";
-import { ValidationHelper } from "./utils/ValidationHelper";
+import { ValidationHelper } from "../utils/ValidationHelper";
 
 const customerRepository = new CustomerRepository();
 const validationHelper = new ValidationHelper();
 
+
 export class CustomerService {
+
+    async customerLogin(customer: newCustomer) {
+        const { codename, password } = customer
+        
+        const customerDataArray = await customerRepository.getSpecificCustomerByCodename(codename)
+        const customerInformation = Array.isArray(customerDataArray) ? customerDataArray[0] : customerDataArray;
+  
+        if(!customerInformation) {
+          throw new NotFoundError('You are not my client! I did not find you in my sistems!')
+        }
+     
+        const verifyPassword = await bcryptjs.compare(password, customerInformation.password)
+        if(!verifyPassword) {
+            throw new BadRequestError('Your codename or password are wrong!')
+        }
+        const token = jwt.sign({ id: customerInformation.id }, process.env.JWT_PASSWORD ?? '', {
+            expiresIn: '8h',
+        });
+        return token
+    }
+
     async createCustomer(customer: newCustomer) {
         const verifyCustomerExist = await customerRepository.getSpecificCustomerByCodename(customer.codename) 
-        if (verifyCustomerExist === null) {
+        if (verifyCustomerExist.length > 0) {
           throw new NotFoundError('You are already my customer! What you trying to do here?')
         }
 
@@ -17,12 +41,16 @@ export class CustomerService {
         if(validateField === true) {
             throw new BadRequestError('There is something wrong with your informations!')
         }
+
+        const hashPassword = await bcryptjs.hash(customer.password, 10)
+        customer.password = hashPassword
+
         return await customerRepository.createCustomer(customer);
     }
 
     async updateCodename(originalCodename: string, newCodename: string) {
         const verifyCustomerExist = await customerRepository.getSpecificCustomerByCodename(originalCodename) 
-        if (verifyCustomerExist === null) {
+        if (verifyCustomerExist.length === 0) {
           throw new NotFoundError('You are not my client! I did not find you in my sistems!')
         }
 
@@ -35,7 +63,7 @@ export class CustomerService {
 
     async updatePassword(codename: string, newPassword: string) {
         const verifyCustomerExist = await customerRepository.getSpecificCustomerByCodename(codename) 
-        if (verifyCustomerExist === null) {
+        if (verifyCustomerExist.length === 0) {
           throw new NotFoundError('You are not my client! I did not find you in my sistems!')
         }
 
@@ -43,12 +71,16 @@ export class CustomerService {
         if(validateField === true) {
             throw new BadRequestError('What kind password is that? Fix it!')
         }
+
+        const hashPassword = await bcryptjs.hash(newPassword, 10)
+        newPassword = hashPassword
+
         await customerRepository.updatePassword(codename, newPassword)
     }
 
     async deleteCustomer(codename: string) {
         const verifyCustomerExist = await customerRepository.getSpecificCustomerByCodename(codename) 
-        if (verifyCustomerExist === null) {
+        if (verifyCustomerExist.length === 0) {
           throw new NotFoundError('You are not my client! I did not find you in my sistems!')
         }
         return await customerRepository.deleteCustomer(codename)
