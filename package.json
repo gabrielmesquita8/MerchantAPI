@@ -4,7 +4,6 @@
   "description": "Hello Stranger! Here you will find an API responsible for selling items for players. You can find anything you want, but you will never leave less than 100 coins here :)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "start": "nodemon"
@@ -28,9 +27,11 @@
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.12.0",
+    "playwright": "^1.46.1",
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.46.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",

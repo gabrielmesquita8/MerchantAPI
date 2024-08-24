@@ -45,4 +45,8 @@ export class CustomerRepository {
         return await db.update(customer).set({ coins: newCoins })
         .where(eq(customer.codename, codename));
     }
+
+    async deleteAllData() {
+        await db.delete(customer).execute();
+    }
 }

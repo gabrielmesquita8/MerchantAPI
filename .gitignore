@@ -1,2 +1,6 @@
 node_modules/
 src/schema/migrations/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
