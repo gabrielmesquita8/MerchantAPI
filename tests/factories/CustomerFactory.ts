@@ -20,6 +20,16 @@ export class CustomerFactory {
         }
     }
 
+    emptyCustomerData() {
+        return {
+            "codename": "", 
+            "coins":  0,
+            "customer_name": "", 
+            "password": "",
+            "inventory": [""]
+        }
+    }
+
     validLogin() {
         return {
             "codename": "Test", 

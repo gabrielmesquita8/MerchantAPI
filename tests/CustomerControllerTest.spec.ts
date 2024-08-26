@@ -15,7 +15,7 @@ test.beforeEach(async () => {
     authToken = await requestHelper.generateTokenForTest();
 });
 
-test.describe('Testing customer endpoints', () => {
+test.describe('Testing customer endpoints for valid operations', () => {
     test('Create an customer with valid informations', async ({ request }) => {
         const body = customerFactory.validCustomerData()
         const response = await request.post(`/registerCustomer`, {
@@ -30,6 +30,7 @@ test.describe('Testing customer endpoints', () => {
 
     test('Change customer codename', async ({ request }) => {
         const newCodename = customerFactory.changeCodename()
+        const dataBeforeChanging = await customerRepository.getSpecificCustomerByCodename("Test")
         const response = await request.patch(`/updateCodename/Test`, {
             data: newCodename,
             headers: {
@@ -37,10 +38,11 @@ test.describe('Testing customer endpoints', () => {
             }
         });
         expect(response.status()).toBe(200);
-
-        // TODO Take data before changing codename and compare all the data after it the change
         const dataInDatabase = await customerRepository.getSpecificCustomerByCodename(newCodename.codename)
+
         expect(newCodename.codename).toStrictEqual(dataInDatabase[0].codename)
+        expect(dataBeforeChanging[0].customer_name).toStrictEqual(dataInDatabase[0].customer_name)
+        expect(dataBeforeChanging[0].password).toStrictEqual(dataInDatabase[0].password)
     })
 
     test('Delete customer', async ({ request }) => {
@@ -50,5 +52,31 @@ test.describe('Testing customer endpoints', () => {
             }
         });
         expect(response.status()).toBe(200);
+    })
+})
+
+test.describe('Testing customer endpoints for invalid operations', () => {
+    test('Attempt to create an customer with empty fields', async ({ request }) => {
+        const body = customerFactory.emptyCustomerData()
+        const response = await request.post(`/registerCustomer`, {
+            data: body
+        });
+        expect(response.status()).toBe(400);
+        expect(await response.json()).toEqual({"message": "There is something wrong with your informations!"}
+        );
+        const dataInDatabase = await customerRepository.getSpecificCustomerByCodename(body.codename)
+        expect(dataInDatabase.length).toBe(0)
+    })
+
+    test('Attempt to update codename without token', async ({ request }) => {
+        const newCodename = customerFactory.changeCodename()
+        const response = await request.patch(`/updateCodename/Test`, {
+            data: newCodename
+        });
+        expect(response.status()).toBe(401);
+        expect(await response.json()).toEqual({"message": "You shall not pass, Stranger!"}
+        );
+        const dataInDatabase = await customerRepository.getSpecificCustomerByCodename(newCodename.codename)
+        expect(dataInDatabase.length).toBe(0)
     })
 })
