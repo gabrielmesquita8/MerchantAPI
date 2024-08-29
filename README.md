@@ -59,7 +59,7 @@ $ npm start
    - Remember to update your codename or password in subsequent requests after making changes.
 
 **API tests**
-In this section, you'll find instructions on how to run API tests using [Playwrigth](https://playwright.dev/).
+In this section, you'll find instructions on how to run API tests using [Playwright](https://playwright.dev/).
 
 1. **Start docker:**
    - `docker-compose up`
