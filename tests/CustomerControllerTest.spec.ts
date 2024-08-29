@@ -12,7 +12,7 @@ let authToken;
 test.beforeEach(async () => {
     await customerRepository.deleteAllData();
     await requestHelper.createValidCustomerForTest();
-    authToken = await requestHelper.generateTokenForTest();
+    authToken = await requestHelper.generateTokenForTest(customerFactory.validLogin());
 });
 
 test.describe('Testing customer endpoints for valid operations', () => {
@@ -52,6 +52,9 @@ test.describe('Testing customer endpoints for valid operations', () => {
             }
         });
         expect(response.status()).toBe(200);
+
+        const dataInDatabase = await customerRepository.getSpecificCustomerByCodename("Test")
+        expect(dataInDatabase.length).toBe(0)
     })
 })
 

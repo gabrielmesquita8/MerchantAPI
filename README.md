@@ -57,3 +57,15 @@ $ npm start
    - With the main data set up, you can now use the other endpoints to test the API.
    - The `items` endpoints do not require authentication. However, for `customers` and `transactions` endpoints, you will need to use the generated token.
    - Remember to update your codename or password in subsequent requests after making changes.
+
+**API tests**
+In this section, you'll find instructions on how to run API tests using [Playwrigth](https://playwright.dev/).
+
+1. **Start docker:**
+   - `docker-compose up`
+
+2. **Run All Tests:**
+   - `npx playwright test`
+
+3. **Run specific test:**
+   - `npx playwright test tests/filenameWithTest`

@@ -3,9 +3,19 @@ export class CustomerFactory {
     createCustomerInDbBeforeTest() {
         return {
             "codename": "Test", 
-            "coins":  100,
+            "coins":  230000,
             "customer_name": "Test", 
             "password": "test",
+            "inventory": ["Test"]
+        }
+    }
+
+    createCustomerForTransactionTest() {
+        return {
+            "codename": "transactionTest", 
+            "coins":  230000,
+            "customer_name": "transactionTest", 
+            "password": "transactionTest",
             "inventory": ["Test"]
         }
     }
@@ -34,6 +44,13 @@ export class CustomerFactory {
         return {
             "codename": "Test", 
             "password": "test"
+        }
+    }
+
+    validLoginForTransaction() {
+        return {
+            "codename": "transactionTest", 
+            "password": "transactionTest"
         }
     }
 

@@ -29,4 +29,8 @@ export class ItemRepository {
     async deleteItem(itemName: string) {
         return await db.delete(itemsTable).where(eq(itemsTable.itemName, itemName));
     }
+
+    async deleteAllData() {
+        await db.delete(itemsTable).execute();
+    }
 }
